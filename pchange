@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+int main()
+/*
+ * {
+	printf("before\n");         //before using execl
+//	execl("/bin/ls","ls",NULL);  //list of processes
+        execl("/bin/ps","ps",NULL);  //current running process
+	printf("after\n");           //after using execl
+} */
+{
+	char *argv[]={"ps",0};
+	pid_t pid;
+	int x,ret;
+	pid=fork();
+	if(pid>0)
+	{
+		ret=wait(&x);
+		printf("%d\n",ret);
+		exit(0);
+	}
+	else
+	{
+		printf("%d\n",getpid());
+		execv("/bin/ps",argv);
+	//	execvp("ps",argv);
+	}
+}
